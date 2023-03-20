@@ -3,7 +3,8 @@ import sys
 from matplotlib import pyplot as plt
 from abc import ABC, abstractmethod
 
-sys.path.append("~/williampoland/Python/EM")
+# sys.path.append("~/williampoland/Python/EM")
+sys.path.append('/Users/williampoland/Documents/GitHub/Python_EM/EM')
 import Variables
 
 class Antenna(Variables.Variables, ABC):

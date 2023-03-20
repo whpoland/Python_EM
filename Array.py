@@ -2,7 +2,8 @@ import numpy as np
 import sys
 from matplotlib import pyplot as plt
 
-sys.path.append("~/williampoland/Python/EM")
+# sys.path.append("~/williampoland/Python/EM")
+sys.path.append('/Users/williampoland/Documents/GitHub/Python_EM/EM')
 import AntennaTypes
 
 # class Array(Antenna.Antenna):
@@ -171,7 +172,7 @@ class Array():
         theta = input_array
         for i in range(self.Array_inputs["num"]):
             curr_mag = self.Array_data[i]["magnitude"]
-            curr_phase = self.Array_data[i]["phase"]
+            curr_phase = np.pi / 180 * self.Array_data[i]["phase"]
             d = self.Array_data[i]["position"] * self.get("wavelength") # NOTE: position is in terms of wavelength; do we need to multiply by wavelength???
 
             elem = curr_mag * np.exp(1j * (curr_phase + beta * d * np.cos(theta))) # calculate element contribution to AF
@@ -327,5 +328,7 @@ class Array():
         return
 
 # arr = Array(freq=3e6, num=1, type='isotropic')
+# arr = Array(freq=3e8, num=2, points=720, type='isotropic', uniform=True, spacing=0.5, alpha=0) # 3.5-1 ex 3-2
+# arr = Array(freq=3e8, num=2, points=720, type='isotropic', uniform=True, spacing=0.25, alpha=45) # 3.5-1 ex 3-4
 arr = Array(freq=3e8, num=2, points=720, type='isotropic', uniform=True, spacing=0.5, alpha=0)
 arr.polar_plot(pattern_type="power",view="both")

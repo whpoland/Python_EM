@@ -1,7 +1,8 @@
 import numpy as np
 import sys
 
-sys.path.append("~/williampoland/Python/EM")
+# sys.path.append("~/williampoland/Python/EM")
+sys.path.append('/Users/williampoland/Documents/GitHub/Python_EM/EM')
 import Constants
 
 class Variables(Constants.Constants):

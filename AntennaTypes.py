@@ -2,7 +2,8 @@ import numpy as np
 import sys
 from matplotlib import pyplot
 
-sys.path.append("~/williampoland/Python/EM")
+# sys.path.append("~/williampoland/Python/EM")
+sys.path.append('/Users/williampoland/Documents/GitHub/Python_EM/EM')
 import Antenna
 
 class IsotropicAntenna(Antenna.Antenna):
