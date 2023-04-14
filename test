@@ -1,0 +1,24 @@
+num = 3
+# data = list([{'a': None, 'b': None, 'c': None}] * num)
+data = [{'a': None, 'b': None, 'c': None} for poop in range(num)]
+
+# data = []
+# for i in range(num):
+#     data.append({'a': None, 'b': None, 'c': None})
+
+
+for i in range(num):
+    data[i]['a'] = 0.5 * i
+    data[i]['b'] = i
+    data[i]['c'] = 2 * i
+
+
+print(data)
+# print out the array data
+# print("(a, b, c)")
+# for i in range(num):
+#     print(f"Index {i}: (" ,end=" ")
+#     vars = ["a", "b", "c"]
+#     for var in vars:
+#         print(f"{data[i][var]}, ", end="")
+#     print(")")

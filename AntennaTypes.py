@@ -6,6 +6,9 @@ from matplotlib import pyplot
 sys.path.append('/Users/williampoland/Documents/GitHub/Python_EM/EM')
 import Antenna
 
+# NOTE: list multiplication (i.e. list = [value] * num) only works if value will never be changed, as all indices will have the same reference
+#       if wishing to quickly instantiate a list where each index may be changed, used list comprehension instead (i.e. list = [value for i in range(num)])
+
 class IsotropicAntenna(Antenna.Antenna):
 
     # necessary to assign these for instantiation
@@ -57,7 +60,8 @@ class IdealDipole(Antenna.Antenna):
         super().__init__(freq=self.IdealDipole_inputs["freq"], num=self.IdealDipole_inputs["num"])
 
         # note th,phi are arrays; operations should be element-wise
-        my_ef = lambda th,phi: np.sin(th)
+        my_ef = lambda th,phi: np.full(max(len(th),len(phi)), np.sin(th)) if len(th) == 1 else np.sin(th)
+        # my_ef = lambda th,phi: [np.sin(th)] * (1 if len(th) == max(len(th),len(phi)) else max(len(th),len(phi))) # second term is factor to ensure proper length
         my_pf = lambda th,phi: [1] * max(len(th),len(phi))
         super().set("element_factor", my_ef)
         super().set("pattern_factor", my_pf)
