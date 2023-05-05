@@ -50,7 +50,7 @@ class Array():
         Array.phi_rad = Array.theta_rad
 
         ## -------------------------------------- kwarg validation ------------------------------------------------
-        vaild_types = ['isotropic', 'idealdipole', 'uniformlinesource' 'patch', 'notch']
+        vaild_types = ['isotropic', 'idealdipole', 'uniformlinesource', 'patch', 'notch']
         # check if necessary kwargs are input
         if self.Array_inputs["freq"] <= 0: 
             print("Error: frequency is invalid or not specified")
@@ -75,7 +75,7 @@ class Array():
         inputs_to_check = ["magnitude", "phase", "position"]
         for var in inputs_to_check:
             if self.Array_inputs["uniform"] and self.Array_inputs[var]: # if uniform & non-uniform inputs are not empty
-                print("Warning: non-uniform list inputs specified for uniform array...inputs will be ignored")
+                    print("Warning: non-uniform list inputs specified for uniform array...inputs will be ignored")
             elif not self.Array_inputs["uniform"] and not self.Array_inputs[var]:
                 if var == "position":
                     print(f"Error: non-uniform array was specified without necessary input '{var}'")
@@ -83,7 +83,7 @@ class Array():
                 else:
                     print(f"Warning: non-uniform array was specified without input '{var}'")
                     # raise Exception("Necessary kwarg inputs not specified")
-            if self.Array_inputs[var] and len(self.Array_inputs[var]) != self.Array_inputs[var]:
+            if self.Array_inputs[var] and len(self.Array_inputs[var]) != self.Array_inputs["num"]:
                 print(f"Error: size of input list '{var}' does not match specified number of array elements")
                 raise Exception("Size mismatch with input list and number of elements")
         ## --------------------------------------------------------------------------------------------------------
@@ -92,7 +92,7 @@ class Array():
         # variable to store the Antenna object for the type of antenna
         self.Array_obj = None
         if self.Array_inputs["type"] == 'isotropic':
-                self.Array_obj = AntennaTypes.IsotropicAntenna(freq=self.Array_inputs["freq"])
+            self.Array_obj = AntennaTypes.IsotropicAntenna(freq=self.Array_inputs["freq"])
         elif self.Array_inputs["type"] == 'idealdipole':
             self.Array_obj = AntennaTypes.IdealDipole(freq=self.Array_inputs["freq"])
         elif self.Array_inputs["type"] == 'uniformlinesource':
@@ -219,6 +219,7 @@ class Array():
             af = np.divide(af, max(af)) # normalize
 
         af = np.real(af) # take the real part
+        af = np.abs(af) # 
         
         # we want to extend the size of AF array if we are only passed 1 theta input
         if (not scalar) and len(input_array) == 1:
@@ -481,9 +482,15 @@ class Array():
         return
 
 # arr = Array(freq=3e6, num=1, type='isotropic')
-arr = Array(freq=3e8, num=5, points=720, type='isotropic', uniform=True, spacing=1, alpha=0) 
-arr.polar_plot(pattern_type="af",view="both")
+# arr = Array(freq=3e8, num=5, points=720, type='isotropic', uniform=True, spacing=1, alpha=0) 
+# arr.polar_plot(pattern_type="af",view="both")
 # arr.sweep_af(0)
 
 # arr2 = Array(freq=3e8, num=2, points=720, type='idealdipole', uniform=True, spacing=0.5, alpha=0)
 # arr2.polar_plot(pattern_type="power", view="both")
+
+
+arr = Array(freq=5.775e9, num=4, points=720, type='idealdipole', uniform=True, spacing=1, alpha=0) 
+# arr = Array(freq=5.775e9, num=4, points=720, type='patch', uniform=False, magnitude=[1,1,1,1], position=[0,0.5,1,1.5],phase=[270,270,270,270])
+# arr.sweep_af(90)
+arr.polar_plot(pattern_type="af",view="elevation")

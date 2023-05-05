@@ -62,9 +62,11 @@ class IdealDipole(Antenna.Antenna):
         # note th,phi are arrays; operations should be element-wise
         my_ef = lambda th,phi: np.full(max(len(th),len(phi)), np.sin(th)) if len(th) == 1 else np.sin(th)
         # my_ef = lambda th,phi: [np.sin(th)] * (1 if len(th) == max(len(th),len(phi)) else max(len(th),len(phi))) # second term is factor to ensure proper length
-        my_pf = lambda th,phi: [1] * max(len(th),len(phi))
+        my_pf = lambda th,phi: np.full(max(len(th),len(phi)), 1) if len(th) == 1 else 1
+        # my_pf = lambda th,phi: [1] * max(len(th),len(phi))
         super().set("element_factor", my_ef)
         super().set("pattern_factor", my_pf)
+
 
 class UniformLineSource(Antenna.Antenna):
 
@@ -99,6 +101,7 @@ class UniformLineSource(Antenna.Antenna):
         super().set("element_factor", my_ef)
         super().set("pattern_factor", my_pf)
 
+
 class PatchAntenna(Antenna.Antenna):
 
     # necessary to assign these for instantiation
@@ -121,8 +124,10 @@ class PatchAntenna(Antenna.Antenna):
         super().__init__(freq=self.PatchAntenna_inputs["freq"], num=self.PatchAntenna_inputs["num"])
 
         # note th,phi are arrays; operations should be element-wise
-        my_ef = lambda th,phi: 0 # TODO: implement
-        my_pf = lambda th,phi: 0 # TODO: implement
+        my_ef = lambda th,phi: np.full(max(len(th),len(phi)), np.cos(th)) if len(th) == 1 else np.cos(th)
+        # my_ef = lambda th,phi: np.full(max(len(th),len(phi)), np.power(np.cos(th),1)) if len(th) == 1 else np.power(np.cos(th),1)
+        my_pf = lambda th,phi: np.full(max(len(th),len(phi)), 1) if len(th) == 1 else 1
+        # my_pf = lambda th,phi: [1] * max(len(th),len(phi))
         super().set("element_factor", my_ef)
         super().set("pattern_factor", my_pf)
 
